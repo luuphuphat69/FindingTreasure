@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.captainhook.findingtreasure;
 
 import Model.Player;
@@ -17,7 +13,7 @@ import static usage.Constant.PlayerConst.*;
  */
 public class Panel extends JPanel{
 
-    private Player player = new Player(0, 0, 37, 40, IDLE, false, false);
+    private Player player = new Player(100, 100, 32 * (int)Game.SCALE, 38 * (int)Game.SCALE, IDLE, false, false);
     private LevelManager levelManager = new LevelManager();
     private Game game;
     

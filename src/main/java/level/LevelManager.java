@@ -18,7 +18,7 @@ import static usage.LoadSave.GetSpriteAtlas;
 public class LevelManager {
     
     private Game game;
-    private BufferedImage[] levelTile;
+    public BufferedImage[] levelTile;
     private Level levelOne;
 
     public LevelManager() {
