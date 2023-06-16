@@ -31,74 +31,132 @@ public class Constant {
         public static final int ATTACK1 = 8;
         public static final int ATTACK2 = 9;
 
-        public static String getImagePath(int playerAction) {
+        public static String getImagePath(int playerAction, int playerIndex) {
             switch (playerAction) {
-                case 0 -> {
-                    return "character/Death.png";
+                case DEATH -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Death_8.png";
+                    }
+                    return "monster1/Death.png";
                 }
-                case 1 -> {
-                    return "character/Idle1.png";
+                case IDLE -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Idle_4.png";
+                    }
+                    return "monster1/Idle.png";
                 }
-                case 2 -> {
-                    return "character/Hurt.png";
+                case HURT -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Hurt_4.png";
+                    }
+                    return "monster1/Hurt.png";
                 }
-                case 3 -> {
-                    return "character/Walk.png";
+                case WALK -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Walk_6.png";
+                    }
+                    return "monster1/Walk.png";
                 }
-                case 4 -> {
-                    return "character/Run.png";
+                case RUNNING -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Run_6.png";
+                    }
+                    return "monster1/Run.png";
                 }
-                case 5 -> {
-                    return "character/Jump.png";
+                case JUMPING -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Jump_8.png";
+                    }
+                    return "monster1/Jump.png";
                 }
-                case 6 -> {
-                    return "character/Push.png";
+                case PUSHING -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Push_6.png";
+                    }
+                    return "monster1/Push.png";
                 }
-                case 7 -> {
-                    return "character/Climb.png";
+                case CLIMBING -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Climb_4.png";
+                    }
+                    return "monster1/Climb.png";
                 }
-                case 8 -> {
-                    return "character/Attack1.png";
+                case ATTACK1 -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Attack1_4.png";
+                    }
+                    return "monster1/Attack1.png";
                 }
-                case 9 -> {
-                    return "character/Attack2.png";
+                case ATTACK2 -> {
+                    if(playerIndex == 2){
+                        return "monster2/Dude_Monster_Attack2_6.png";
+                    }
+                    return "monster1/Attack2.png";
                 }
             }
-            return "character/Idle1.png";
+            return "character/Idle.png";
         }
 
         public static int getSpritesAmount(int playerAction) {
             switch (playerAction) {
-                case 0 -> {
+                case DEATH -> {
                     return 3;
                 }
-                case 1 -> {
+                case IDLE -> {
                     return 4;
                 }
-                case 2 -> {
+                case HURT -> {
                     return 4;
                 }
-                case 3 -> {
+                case WALK -> {
                     return 6;
                 }
-                case 4 -> {
+                case RUNNING -> {
                     return 6;
                 }
-                case 5 -> {
+                case JUMPING -> {
                     return 8;
                 }
-                case 6 -> {
+                case PUSHING -> {
                     return 6;
                 }
-                case 7 -> {
+                case CLIMBING -> {
                     return 4;
                 }
-                case 8 -> {
+                case ATTACK1 -> {
                     return 4;
                 }
-                case 9 -> {
+                case ATTACK2 -> {
                     return 6;
                 }
+            }
+            return 0;
+        }
+    }
+    
+    public class ObjectConst{
+        public static final int CHEST = 10;
+        public static final int COIN = 11;
+        
+        public static final int IDLE = 0;
+        public static final int OPEN = 1;
+        
+        public static String getImagePath(int type, int action){
+            switch (type) {
+                case CHEST:
+                    if(action == IDLE)
+                        return "chest/Idle.png";
+                    return "chest/Open.png";
+                case COIN:
+                    return "coin/Coin.png";
+            }
+            return null;
+        }
+        
+        public static int getSpritesAmount(int type, int action){
+            switch (type) {
+                case CHEST, COIN:
+                    return 5;
             }
             return 0;
         }

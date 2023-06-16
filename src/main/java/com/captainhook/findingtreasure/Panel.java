@@ -1,26 +1,35 @@
 package com.captainhook.findingtreasure;
 
-import Model.Player;
+import entity.Chest;
+import entity.Player;
 import input.KeyboardInput;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import level.LevelManager;
-import static usage.Constant.PlayerConst.*;
+import static entity.Player.initPlayer;
+import java.awt.image.BufferedImage;
+import object.ObjectManager;
 /**
  *
  * @author luuph
  */
 public class Panel extends JPanel{
 
-    private Player player = new Player(100, 100, 32 * (int)Game.SCALE, 38 * (int)Game.SCALE, IDLE, false, false);
+    private Player player1 = initPlayer(1);
+    private Player player2 = initPlayer(2);
+    private Chest chest = new Chest(0, 0, 10, 0, ObjectManager.getLevelData());
+        
+    
     private LevelManager levelManager = new LevelManager();
+    private ObjectManager objectManager = new ObjectManager(chest);
+    
     private Game game;
     
     public Panel(Game game){
         this.game = game;
         setPanelSize();
-        addKeyListener(new KeyboardInput(this, player));
+        addKeyListener(new KeyboardInput(this, player1, player2));
     }
     
     void setPanelSize(){
@@ -29,26 +38,20 @@ public class Panel extends JPanel{
     }
     
     void windowFocusLost(){
-        player.setLeft(false);
-        player.setRight(false);
-        player.setUp(false);
-        player.setDown(false);
+        player1.setDirection();
+        player2.setDirection();
     }
+    
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         
-        player.importPlayerImage();
-        player.loadAnimations();      
-        player.updateAnimations();
-        player.updateHitbox();
-        
-        player.setAnimation();
-        player.updatePosition();
-        
         levelManager.draw(g);
-        player.render(g);
-        player.drawHitbox(g);
+        chest.update();
+        objectManager.draw(g, chest);
+        chest.drawHitBox(g, Chest.xDrawOffset, Chest.yDrawOffset);
+        game.update(player1, g);
+        game.update(player2, g);        
     }
 }

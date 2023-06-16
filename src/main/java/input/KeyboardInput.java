@@ -4,62 +4,100 @@
  */
 package input;
 
-import Model.Player;
+import entity.Player;
 import com.captainhook.findingtreasure.Panel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import usage.Constant;
-
 /**
  *
  * @author luuph
  */
-public class KeyboardInput implements KeyListener{
-    
+public class KeyboardInput implements KeyListener {
+
     private Panel panel;
-    private Player player;
-    
-    public KeyboardInput(Panel panel, Player player){
+    private Player player1;
+    private Player player2;
+
+    public KeyboardInput(Panel panel, Player player1, Player player2) {
         this.panel = panel;
-        this.player = player;
+        this.player1 = player1;
+        this.player2 = player2;
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
-                player.setIsMoving(true);
-                player.setLeft(true);
+                player1.setIsMoving(true);
+                player1.setLeft(true);
                 panel.repaint();
                 System.out.println("Key A pressed");
                 break;
+
             case KeyEvent.VK_D:
-                player.setIsMoving(true);
-                player.setRight(true);
+                player1.setIsMoving(true);
+                player1.setRight(true);
                 panel.repaint();
                 System.out.println("Key D pressed");
                 break;
+
             case KeyEvent.VK_W:
-                player.setIsMoving(true);
-                player.setUp(true);
+                player1.setJump(true);
                 panel.repaint();
                 System.out.println("Key W pressed");
                 break;
+
             case KeyEvent.VK_S:
-                player.setIsMoving(true);
-                player.setDown(true);
+                player1.setIsMoving(true);
+                player1.setDown(true);
                 panel.repaint();
                 System.out.println("Key S pressed");
                 break;
+
             case KeyEvent.VK_SPACE:
-                player.setIsAttacking(true);
+                player1.setIsAttacking(true);
                 panel.repaint();
                 System.out.println("Key Space pressed");
+                break;
+
+            case KeyEvent.VK_LEFT:
+                player2.setIsMoving(true);
+                player2.setLeft(true);
+                panel.repaint();
+                System.out.println("Key left pressed");
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                player2.setIsMoving(true);
+                player2.setRight(true);
+                panel.repaint();
+                System.out.println("Key right pressed");
+                break;
+
+            case KeyEvent.VK_UP:
+                player2.setJump(true);
+                panel.repaint();
+                System.out.println("Key W pressed");
+                break;
+                
+            case KeyEvent.VK_DOWN:
+                player2.setIsMoving(true);
+                player2.setDown(true);
+                panel.repaint();
+                System.out.println("Key down pressed");
+                break;
+                
+            case KeyEvent.VK_0:
+                player2.setIsAttacking(true);
+                panel.repaint();
+                System.out.println("0 pressed");
+                break;
         }
     }
 
@@ -67,22 +105,42 @@ public class KeyboardInput implements KeyListener{
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
-                player.setIsMoving(false);
-                player.setLeft(false);
+                player1.setIsMoving(false);
+                player1.setLeft(false);
                 break;
+
             case KeyEvent.VK_D:
-                player.setIsMoving(false);
-                player.setRight(false);
+                player1.setIsMoving(false);
+                player1.setRight(false);
                 break;
+
             case KeyEvent.VK_W:
-                player.setIsMoving(false);
-                player.setUp(false);
+                player1.setJump(false);
                 break;
+
             case KeyEvent.VK_S:
-                player.setDown(false);
+                player1.setIsMoving(false);
+                player1.setDown(false);
+                
             case KeyEvent.VK_SPACE:
-                player.setIsAttacking(false);
+                player1.setIsAttacking(false);
+            
+            case KeyEvent.VK_LEFT:
+                player2.setIsMoving(false);
+                player2.setLeft(false);
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                player2.setIsMoving(false);
+                player2.setRight(false);
+                break;
+            case KeyEvent.VK_UP:
+                player2.setJump(false);
+                break;
+
+            case KeyEvent.VK_0:
+                player2.setIsAttacking(false);
         }
     }
-    
+
 }

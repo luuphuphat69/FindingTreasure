@@ -1,6 +1,5 @@
 package com.captainhook.findingtreasure;
 
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
@@ -19,7 +18,6 @@ public class GameWindow extends JFrame{
         jframe.setResizable(false);
         jframe.pack();
         jframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        jframe.add(panel);
         jframe.setVisible(true);
         jframe.addWindowFocusListener(new WindowFocusListener() {
             @Override

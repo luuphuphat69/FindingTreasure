@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
+package entity;
 
+import com.captainhook.findingtreasure.Game;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -18,9 +19,14 @@ public class Entity {
     public int action;
     public boolean isMoving;
     public boolean isAttacking;
-    public boolean left, right, up, down;
-    public Rectangle hitBox;
+    public boolean left, right, up, down, jump;
+    public Rectangle2D.Float hitBox;
     public boolean ifCollistion = false;
+    
+    private float airSpeed = 0f;
+    private float gravity = 0.05f * Game.SCALE;
+    private float jumpSpeed = -2.25f * Game.SCALE;
+    protected float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     
       public int getAction() {
         return action;
@@ -86,8 +92,16 @@ public class Entity {
         this.down = down;
     }
     
+    public void setJump(boolean jump){
+        this.jump = jump;
+    }
+
+    public boolean isJump() {
+        return jump;
+    }
+    
     public void createHitbox(){
-        hitBox = new Rectangle(xAxis, yAxis, width , height); 
+        hitBox = new Rectangle2D.Float(xAxis, yAxis, width , height);   
     }
     
     public void updateHitbox(){
@@ -95,7 +109,7 @@ public class Entity {
         hitBox.y = getyAxis();
     }
     
-    public Rectangle getHitbox(){
+    public Rectangle2D.Float getHitbox(){
         return hitBox;
     }
     
