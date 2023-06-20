@@ -4,10 +4,6 @@
  */
 package usage;
 
-import com.captainhook.findingtreasure.Game;
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;

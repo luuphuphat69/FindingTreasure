@@ -61,7 +61,7 @@ public class LevelManager {
                  từ trái qua phải, bắt đầu từ vị trí số 0
                 */
                 if (value > 143) {
-                    // 36: ảnh nền xanh
+                    // 36: ảnh nền đen
                     value = 143;
                 }
                 levelData[j][i] = value;

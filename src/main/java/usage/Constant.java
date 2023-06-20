@@ -148,15 +148,17 @@ public class Constant {
                         return "chest/Idle.png";
                     return "chest/Open.png";
                 case COIN:
-                    return "coin/Coin.png";
+                    return "coin/greenCoin.png";
             }
             return null;
         }
         
         public static int getSpritesAmount(int type, int action){
             switch (type) {
-                case CHEST, COIN:
+                case CHEST:
                     return 5;
+                case COIN:
+                    return 1;
             }
             return 0;
         }

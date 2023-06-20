@@ -27,9 +27,9 @@ public class Player extends Entity {
     private float yDrawOffset = 3 * Game.SCALE; // hitbox
     public int playerIndex;
 
-    private float airSpeed = 1f;
-    private float gravity = 0.05f * Game.SCALE;
-    private float jumpSpeed = -2.25f * Game.SCALE;
+    private float airSpeed = 1f * Game.SCALE;
+    private float gravity = 0.045f * Game.SCALE;
+    private float jumpSpeed = -2.05f * Game.SCALE;
     private float fallSpeedAfterHit = 0.25f * Game.SCALE;
     private float jumpHeight = 5 * Game.SCALE;
     private boolean inAir = false;
@@ -156,7 +156,7 @@ public class Player extends Entity {
                 if(CollisionDetection.checkIfCollisionWhileJumping((int) hitBox.x, (int) hitBox.y + yAxisTemp, (int) hitBox.width, (int) hitBox.height, levelData)){
                     this.yAxis -= yAxisTemp;
                 }else{
-                    this.yAxis += 3;
+                    this.yAxis += 15;
                 }
                 if (airSpeed > 0) {
                     inAir = false;

@@ -6,6 +6,7 @@ package object;
 
 import entity.Chest;
 import com.captainhook.findingtreasure.Game;
+import entity.Coin;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -18,9 +19,11 @@ import static usage.LoadSave.GetSpriteAtlas;
  */
 public class ObjectManager {
     private Chest chest;
+    private Coin coin;
     
-    public ObjectManager(Chest chest) {
+    public ObjectManager(Chest chest, Coin coin) {
         this.chest = chest;
+        this.coin = coin;
     }
     public static int[][] getLevelData() {
 
@@ -35,21 +38,27 @@ public class ObjectManager {
                 int value = color.getGreen();
 
                 // 60: index của chest
-                if (value == 60) {
+//                if (value == 60) {
+//                    levelData[j][i] = value;
+//                }
                     levelData[j][i] = value;
-                }
             }
         }
         return levelData;
     }
     
-    public void draw(Graphics g, Chest chest) {
+    public void draw(Graphics g, Chest chest, Coin coin) {
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < Game.TILES_IN_WITDH; i++) {
                 int index = chest.getIndex(i, j);
+                int _index = coin.getIndex(i, j);
                 if(index == 60){
                     chest.setHitBoxDirection(Game.TILES_SIZE * i, j * Game.TILES_SIZE);
                     g.drawImage(chest.animation[0], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                }
+                if(_index == 123){
+                    coin.setHitBoxDirection(Game.TILES_SIZE * i, Game.TILES_SIZE * j);
+                    g.drawImage(coin.animation[0], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
                 }
             }
         }
