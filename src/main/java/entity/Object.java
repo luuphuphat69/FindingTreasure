@@ -70,8 +70,7 @@ public class Object {
         this.y = y;
         this.type = type;
         this.action = action;
-        
-        initHitbox(35, 35);
+       
     }
     public Object(){
     }

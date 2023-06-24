@@ -59,6 +59,21 @@ public class CollisionDetection {
         return false;       // Đi được
     }
     
+    public static boolean isObject(int x, int y, int[][] levelData){
+        if(x < 0 || x >= Game.GAME_WIDTH)
+            return true;
+        if(y < 0 || y >= Game.GAME_HEIGHT)
+            return true;
+        
+        int positionXInLvlData = x / Game.TILES_SIZE;
+        int positionYInLvlaDataa = y /Game.GAME_HEIGHT;
+        
+        int value = levelData[positionYInLvlaDataa][positionXInLvlData];
+        
+        return value == 123;
+    }
+    
+    
     public static boolean checkIfEntityOnGround(int x, int y, int width, int height, int [][] levelData){
         if(!isSolid(x, y + height + 1, levelData)){
             if(!isSolid(x + width, y + height + 1, levelData)){

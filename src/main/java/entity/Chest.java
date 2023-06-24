@@ -10,7 +10,7 @@ import java.awt.Graphics;
 
 public class Chest extends Object{
     
-    private int x, y, type, action;
+    private int type, action;
     public static int xDrawOffset;
     public static int yDrawOffset;
     
@@ -19,11 +19,13 @@ public class Chest extends Object{
     public Chest(int x, int y, int type, int action, int[][]levelData){
         super(x, y, type, action);
         
-        this.x = x;
-        this.y = y;
+        super.x = x;
+        super.y = y;
         this.type = type;
         this.action = action;
         this.levelData = levelData;
+        
+        initHitbox(35, 35);
         
         xDrawOffset = (int) (5 * Game.SCALE);
         yDrawOffset = (int) (4 * Game.SCALE);
@@ -32,7 +34,6 @@ public class Chest extends Object{
     public int getIndex(int x, int y){
         return levelData[y][x];
     }
-    
     
     public void update(){
         importObjectImage();

@@ -157,8 +157,6 @@ public class Constant {
             switch (type) {
                 case CHEST:
                     return 5;
-                case COIN:
-                    return 1;
             }
             return 0;
         }

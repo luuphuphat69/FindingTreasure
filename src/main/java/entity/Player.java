@@ -4,6 +4,7 @@ import com.captainhook.findingtreasure.Game;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import level.LevelManager;
+import object.ObjectManager;
 import usage.CollisionDetection;
 import static usage.CollisionDetection.checkIfCollision;
 import static usage.CollisionDetection.checkIfEntityOnGround;
@@ -22,21 +23,21 @@ public class Player extends Entity {
 
     private BufferedImage[] animation;
     private BufferedImage bufferedImage;
-    private int animationTick, animationIndex, speed = 10;
+    private int animationTick, animationIndex, speed = 5;
     private float xDrawOffset = 5 * Game.SCALE; //hitbox
     private float yDrawOffset = 3 * Game.SCALE; // hitbox
     public int playerIndex;
 
-    private float airSpeed = 1f * Game.SCALE;
-    private float gravity = 0.045f * Game.SCALE;
+    private float airSpeed = 0.1f * Game.SCALE;
+    private float gravity = 0.1f * Game.SCALE;
     private float jumpSpeed = -2.05f * Game.SCALE;
-    private float fallSpeedAfterHit = 0.25f * Game.SCALE;
-    private float jumpHeight = 5 * Game.SCALE;
     private boolean inAir = false;
 
+    private ObjectManager objManager;
+    
     public Player() {
     }
-
+    
     public Player(int xAxis, int yAxis, int width, int height, int action, boolean isMoving, boolean isAttacking, int playerIndex) {
         this.xAxis = xAxis;
         this.yAxis = yAxis;
@@ -119,6 +120,7 @@ public class Player extends Entity {
         animationIndex = 0;
     }
 
+    
     public void updatePosition(Player player) {
 
         player.isMoving = false;
@@ -134,10 +136,10 @@ public class Player extends Entity {
             return;
         }
         if (player.left) {
-            xAxisTemp -= 2;
+            xAxisTemp -= 3;
         }
         if (player.right) {
-            xAxisTemp += 2;
+            xAxisTemp += 3;
         }
 
         if (!inAir) {
@@ -193,7 +195,7 @@ public class Player extends Entity {
         loadAnimations();
         updateAnimations();
         updateHitbox();
-
+        drawHitbox(g);
         setAnimation();
         updatePosition(this);
     }
