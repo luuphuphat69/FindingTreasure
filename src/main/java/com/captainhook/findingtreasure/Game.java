@@ -1,8 +1,21 @@
 package com.captainhook.findingtreasure;
 
-import entity.Player;
+import entity.Player; 
+
 import java.awt.Graphics;
+import java.net.URL;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import level.LevelManager;
 import usage.Constant;
 import usage.LoadSave;
@@ -14,10 +27,8 @@ import usage.LoadSave;
 public class Game implements Runnable {
     
     private GameWindow gameWindow;
-    private Panel panel;
-    private LevelManager levelManager;
+    private final Panel panel;
     private Thread gameThread;
-    private Thread gameThread1;
     private final int FPS_SET = 120;
     
 
@@ -28,27 +39,21 @@ public class Game implements Runnable {
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WITDH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
-//    
-//    private int xOffset;
-//    private int leftBorder = (int) 0.2 * GAME_WIDTH;
-//    private int rightBorder = (int) 0.2 * GAME_WIDTH;
-//    private int tilesWide = LevelManager.getLevelData()[0].length;
-//    private int maxTilesOffset = tilesWide - TILES_IN_WITDH;
-//    private int maxOffset = maxTilesOffset * Game.TILES_SIZE;
     
-    public Game() {
+    public Game() throws URISyntaxException {
         panel = new Panel(this);
         gameWindow = new GameWindow(panel);
         panel.setFocusable(true);
         panel.requestFocus();
+        playAudio();
         startGameLoop();   
+        
     }
 
     private void startGameLoop() {
         gameThread = new Thread(this);
-        gameThread1 = new Thread(this);
         gameThread.start();
-        gameThread1.start();
+        
     }
 
     public void render(Player player, Graphics g) {
@@ -89,5 +94,19 @@ public class Game implements Runnable {
             }
         }
     }
+    
+    public void playAudio() throws URISyntaxException {
 
+        URL file = getClass().getClassLoader().getResource("gameaudio/Glorious_morning.wav");
+        AudioInputStream audio;
+        
+        try{
+            audio = AudioSystem.getAudioInputStream(file);
+            Clip c  = AudioSystem.getClip();
+            c.open(audio);
+            c.loop(Clip.LOOP_CONTINUOUSLY);
+        }catch(UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            e.printStackTrace();
+        }
+    }
 }

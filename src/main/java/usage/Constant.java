@@ -135,30 +135,21 @@ public class Constant {
     }
     
     public class ObjectConst{
+        
+        public static int OBJECT = 0;
+        public static int BACKGROUND = 1;
+        
         public static final int CHEST = 10;
         public static final int COIN = 11;
         
-        public static final int IDLE = 0;
-        public static final int OPEN = 1;
-        
-        public static String getImagePath(int type, int action){
+        public static String getImagePath(int type){
             switch (type) {
                 case CHEST:
-                    if(action == IDLE)
-                        return "chest/Idle.png";
-                    return "chest/Open.png";
+                    return "chest/Chest.png";
                 case COIN:
                     return "coin/greenCoin.png";
             }
             return null;
-        }
-        
-        public static int getSpritesAmount(int type, int action){
-            switch (type) {
-                case CHEST:
-                    return 5;
-            }
-            return 0;
         }
     }
 }

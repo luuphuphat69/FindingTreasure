@@ -7,16 +7,18 @@ import com.captainhook.findingtreasure.Game;
  * @author luuph
  */
 public class Coin extends Object{
-    private int type, action;
+    private int type;
     public static int xDrawOffset;
     public static int yDrawOffset;
     public boolean Claimed = false;
 
+    public Coin() {
+    }
+    
     public Coin(int x, int y, int type) {
         super.x = x;
         super.y = y;
         super.type = type;
-
         initHitbox(20, 20);
     }
 
@@ -34,8 +36,5 @@ public class Coin extends Object{
 
     public int getX() {
         return super.x;
-    }
-
-    public Coin() {
     }
 }

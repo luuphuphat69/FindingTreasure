@@ -53,7 +53,7 @@ public class CollisionDetection {
         
         int value = levelData[positionYInLevelData][positionXInLevelData];
         
-        if(value == 12 || value == 57 || value == 63 || value == 120 || value == 121 || value == 128){
+        if(value == 12 || value == 57 || value == 63 || value == 120 || value == 121 || value == 122 || value == 128){
             return true;    // Không đi được
         }
         return false;       // Đi được
