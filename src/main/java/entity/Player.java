@@ -4,13 +4,13 @@ import com.captainhook.findingtreasure.Game;
 import com.captainhook.findingtreasure.Panel;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import level.Level;
+import java.net.URISyntaxException;
 import level.LevelManager;
 import static level.LevelManager.levelIndex;
-import object.ObjectManager;
 import usage.CollisionDetection;
 import static usage.CollisionDetection.checkIfCollision;
 import static usage.CollisionDetection.checkIfEntityOnGround;
+import usage.Constant;
 import static usage.Constant.PlayerConst.*;
 import static usage.Constant.PlayerConst.getImagePath;
 import static usage.Constant.PlayerConst.getSpritesAmount;
@@ -26,15 +26,12 @@ public class Player extends Entity {
     int[][] levelData;
 
     private BufferedImage[] animation;
-    private BufferedImage bufferedImage;
+    private BufferedImage playerImage;
     private int animationTick, animationIndex, speed = 5;
     private float xDrawOffset = 5 * Game.SCALE; //hitbox
     private float yDrawOffset = 3 * Game.SCALE; // hitbox
     public int playerIndex;
 
-    private float airSpeed = 0.1f * Game.SCALE;
-    private float gravity = 0.1f * Game.SCALE;
-    private float jumpSpeed = -2.05f * Game.SCALE;
     private boolean inAir = false;
 
     private Chest chest;
@@ -64,7 +61,7 @@ public class Player extends Entity {
     // Lấy ảnh (sprite) nhân vật theo hành động và nhân vật 1 hoặc 2
     public void importPlayerImage() {
         String animatePath = getImagePath(getAction(), playerIndex);
-        bufferedImage = LoadSave.GetSpriteAtlas(animatePath);
+        playerImage = LoadSave.GetSpriteAtlas(animatePath);
     }
 
     // Lấy subImages từ sprite
@@ -73,14 +70,14 @@ public class Player extends Entity {
         int totalSprites = getSpritesAmount(getAction());
         animation = new BufferedImage[totalSprites];
         for (int i = 0; i < animation.length; i++) {
-            animation[i] = bufferedImage.getSubimage(i * 32, 0, 32, 32);
+            animation[i] = playerImage.getSubimage(i * 32, 0, 32, 32);
         }
     }
 
     // Vị trí của từng subimage tăng theo từng lần lặp và reset nếu vượt quá 
     // số lượng trong sprite
     public void updateAnimations() {
-
+        
         animationTick++;
         if (animationTick >= speed) {
             animationTick = 0;
@@ -120,7 +117,7 @@ public class Player extends Entity {
         animationIndex = 0;
     }
 
-    public void updatePosition(Player player) {
+    public void updatePosition(Player player) throws URISyntaxException {
 
         player.isMoving = false;
         int xAxisTemp = 0;
@@ -147,8 +144,8 @@ public class Player extends Entity {
             }
         }
 
-        if (inAir) {
-            if (checkIfCollision((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height, levelData)) {
+        if(inAir) {
+            if (!checkIfCollision((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height, levelData)) {
                 this.yAxis += airSpeed;
                 airSpeed += gravity;
                 updateXPos(xAxisTemp);
@@ -169,10 +166,11 @@ public class Player extends Entity {
         isMoving = true;
         if (isMoving) {
             if (checkIfPlayerIntersectChest()) {
+                Game.playSound(Constant.SoundConst.LEVEL_COMPLETED);
                 System.out.println("Hit the chest");
                 levelIndex++;
-                player.setPlayerSpawn();
                 levelManager.restartPoint();
+                Panel.setPlayerSpawn();
             }
         }
 
@@ -184,7 +182,7 @@ public class Player extends Entity {
     }
 
     private void updateXPos(int xSpeed) {
-        if (checkIfCollision((int) hitBox.x + xSpeed, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height, levelData)) {
+        if (!checkIfCollision((int) hitBox.x + xSpeed, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height, levelData)) {
             this.xAxis += xSpeed;
         }
     }
@@ -197,13 +195,12 @@ public class Player extends Entity {
         airSpeed = jumpSpeed;
     }
 
-    public void update(Graphics g) {
+    public void update(Graphics g) throws URISyntaxException {
         importPlayerImage();
-        //drawHitbox(g);
         loadAnimations();
         updateAnimations();
         updateHitbox();
-        drawHitbox(g);
+        //drawHitbox(g);
         setAnimation();
         updatePosition(this);
     }

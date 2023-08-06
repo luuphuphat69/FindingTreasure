@@ -4,12 +4,15 @@ import entity.Chest;
 import entity.Coin;
 import entity.Player;
 import input.KeyboardInput;
+import input.MouseInput;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import level.LevelManager;
 import java.awt.image.BufferedImage;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import level.Level;
 import object.ObjectManager;
 import static usage.Constant.PlayerConst.IDLE;
@@ -23,8 +26,8 @@ public class Panel extends JPanel{
     public ArrayList<Coin> listCoin;
     private Chest chest;
     
-    private Player player1;
-    private Player player2;
+    private static Player player1;
+    private static Player player2;
     
     private LevelManager levelManager;
     private ObjectManager objectManager;
@@ -35,7 +38,7 @@ public class Panel extends JPanel{
         initClasses();
         setPanelSize();
         addKeyListener(new KeyboardInput(this, player1, player2));
-        
+        addMouseListener(new MouseInput(levelManager));
     }
     
     void setPanelSize(){
@@ -53,13 +56,13 @@ public class Panel extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         
-        levelManager.draw(g);           // Vẽ map
-        objectManager.draw(g);          // Vẽ rương và vàng
-        objectManager.drawPoint(g);     // Vẽ điểm
-        game.update(player1, g);   // Vẽ người chơi 1
-        game.update(player2, g);   // Vẽ người chơi 2
-        
-        loadLevel();
+        if(!levelManager.isPaused){
+            update(g);
+        }else{
+            levelManager.draw(g);
+            levelManager.menu.draw(g);
+            levelManager.drawAllButton(g);
+        }
     }
     
     public void initClasses(){
@@ -89,10 +92,40 @@ public class Panel extends JPanel{
     
     public void loadLevel(){
         levelManager.loadNextLevel();
-        objectManager.loadObjects(levelManager.getCurrentLevel());
         
-        // Set lại rương trách lấy lại rương ở level trước đó
+        // Set lại rương tránh lấy lại rương ở level trước đó
         player1.getChest(objectManager.getChest());
         player2.getChest(objectManager.getChest());
+    }
+    
+    public static void setPlayerSpawn(){
+        player1.setxAxis(100);
+        player1.setyAxis(400);
+        
+        player2.setxAxis(100);
+        player2.setyAxis(400);
+    }
+    public void update(Graphics g){
+        levelManager.draw(g);            // Vẽ map
+        try {
+            objectManager.draw(g);           // Vẽ rương và vàng
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        objectManager.drawPoint(g);      // Vẽ điểm
+        try {
+            game.update(player1, g);   // Vẽ người chơi 1
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        try {
+            game.update(player2, g);   // Vẽ người chơi 2
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        loadLevel();
+    }
+    public void setIsPaused(){
+        levelManager.isPaused = !levelManager.isPaused;
     }
 }

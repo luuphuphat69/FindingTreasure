@@ -10,7 +10,6 @@ import java.awt.Graphics;
 
 public class Chest extends Object{
     
-    private int type;
     public static int xDrawOffset;
     public static int yDrawOffset;
     
@@ -24,7 +23,7 @@ public class Chest extends Object{
         
         super.x = x;
         super.y = y;
-        this.type = type;    
+        super.type = type;    
         initHitbox(35, 35);
         
         xDrawOffset = (int) (5 * Game.SCALE);

@@ -28,7 +28,7 @@ public class Game implements Runnable {
     
     private GameWindow gameWindow;
     private final Panel panel;
-    private Thread gameThread;
+    public Thread gameThread;
     private final int FPS_SET = 120;
     
 
@@ -45,28 +45,21 @@ public class Game implements Runnable {
         gameWindow = new GameWindow(panel);
         panel.setFocusable(true);
         panel.requestFocus();
-        playAudio();
-        startGameLoop();   
+        playAudio(Constant.SoundConst.GAME_SOUND);
+        startGameLoop();
         
     }
 
     private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
-        
     }
 
-    public void render(Player player, Graphics g) {
+    public void update(Player player, Graphics g) throws URISyntaxException {
         player.update(g);
         player.render(g);
     }
-
-    public void update(Player player, Graphics g) {
-        player.update(g);
-        player.render(g);
-
-    }
-
+    
     @Override
     public void run() {
 
@@ -79,7 +72,6 @@ public class Game implements Runnable {
         long lastCheck = System.currentTimeMillis();
 
         while (true) {
-
             now = System.nanoTime();
             if (now - lastFrame >= timePerFrame) {
                 panel.repaint();
@@ -95,9 +87,9 @@ public class Game implements Runnable {
         }
     }
     
-    public void playAudio() throws URISyntaxException {
+    public void playAudio(String soundPath) throws URISyntaxException {
 
-        URL file = getClass().getClassLoader().getResource("gameaudio/Glorious_morning.wav");
+        URL file = getClass().getClassLoader().getResource(soundPath);
         AudioInputStream audio;
         
         try{
@@ -108,5 +100,22 @@ public class Game implements Runnable {
         }catch(UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
         }
+    }
+    
+    public static void playSound(String soundPath)throws URISyntaxException{
+        URL file = Game.class.getClassLoader().getResource(soundPath);
+        AudioInputStream audio;
+        
+        try{
+            audio = AudioSystem.getAudioInputStream(file);
+            Clip c  = AudioSystem.getClip();
+            c.open(audio);
+            c.start();
+        }catch(UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            e.printStackTrace();
+        }
+    }
+    public void RepaintPanel(){
+        panel.repaint();
     }
 }

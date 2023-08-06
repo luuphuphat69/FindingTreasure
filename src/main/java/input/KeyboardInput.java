@@ -4,11 +4,16 @@
  */
 package input;
 
+import com.captainhook.findingtreasure.Game;
 import entity.Player;
 import com.captainhook.findingtreasure.Panel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import usage.Constant;
+
 /**
  *
  * @author luuph
@@ -47,11 +52,17 @@ public class KeyboardInput implements KeyListener {
                 System.out.println("Key D pressed");
                 break;
 
-            case KeyEvent.VK_W:
-                player1.setJump(true);
-                panel.repaint();
-                System.out.println("Key W pressed");
-                break;
+            case KeyEvent.VK_W: {
+                try {
+                    Game.playSound(Constant.SoundConst.JUMP_SOUND);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(KeyboardInput.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            player1.setJump(true);
+            panel.repaint();
+            System.out.println("Key W pressed");
+            break;
 
             case KeyEvent.VK_S:
                 player1.setIsMoving(true);
@@ -84,19 +95,28 @@ public class KeyboardInput implements KeyListener {
                 player2.setJump(true);
                 panel.repaint();
                 System.out.println("Key W pressed");
+                try {
+                    Game.playSound(Constant.SoundConst.JUMP_SOUND);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(KeyboardInput.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
-                
+
             case KeyEvent.VK_DOWN:
                 player2.setIsMoving(true);
                 player2.setDown(true);
                 panel.repaint();
                 System.out.println("Key down pressed");
                 break;
-                
+
             case KeyEvent.VK_0:
                 player2.setIsAttacking(true);
                 panel.repaint();
                 System.out.println("0 pressed");
+                break;
+                
+            case KeyEvent.VK_ESCAPE:
+                panel.setIsPaused();
                 break;
         }
     }
@@ -121,10 +141,10 @@ public class KeyboardInput implements KeyListener {
             case KeyEvent.VK_S:
                 player1.setIsMoving(false);
                 player1.setDown(false);
-                
+
             case KeyEvent.VK_SPACE:
                 player1.setIsAttacking(false);
-            
+
             case KeyEvent.VK_LEFT:
                 player2.setIsMoving(false);
                 player2.setLeft(false);

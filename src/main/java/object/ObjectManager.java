@@ -7,9 +7,11 @@ import entity.Player;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import level.Level;
 import usage.Constant;
+import usage.HelpMethods;
 import usage.LoadSave;
 /**
  *
@@ -20,7 +22,8 @@ public class ObjectManager {
     private Chest chest;
     private ArrayList<Coin> coins;
     private Player player1, player2;
-    int  point = 0;
+    int  point1 = 0;
+    int point2= 0;
     
     
     public ObjectManager() {
@@ -33,7 +36,7 @@ public class ObjectManager {
         this.player2 = player2;
     }
     
-    public void draw(Graphics g) {
+    public void draw(Graphics g) throws URISyntaxException {
         drawChest(g);
         drawCoins(g);
     }
@@ -54,45 +57,79 @@ public class ObjectManager {
         
     public void drawChest(Graphics g) {
         BufferedImage chestImg = LoadSave.GetSpriteAtlas(Constant.ObjectConst.getImagePath(Constant.ObjectConst.CHEST));
-        chest.drawHitBox(g, Chest.xDrawOffset, Chest.yDrawOffset);
+        //chest.drawHitBox(g, Chest.xDrawOffset, Chest.yDrawOffset);
         g.drawImage(chestImg , chest.x, chest.y, Game.TILES_SIZE, Game.TILES_SIZE, null);
     } 
     
-    public void drawCoins(Graphics g){
+    public void drawCoins(Graphics g) throws URISyntaxException{
         BufferedImage coinImg = LoadSave.GetSpriteAtlas(Constant.ObjectConst.getImagePath(Constant.ObjectConst.COIN));
         for(Coin coin: coins){
-            coin.drawHitBox(g, 0, 0);
+            //coin.drawHitBox(g, 0, 0);
             checkCoinTouched();
             if(!coin.isClaimed()){
-                g.drawImage(coinImg, coin.getX(), coin.getY(), 25, 25, null);
+                g.drawImage(coinImg, coin.x, coin.y, 25, 25, null);
             }
         }
     }
     
-    public void checkCoinTouched() {
-        int total = 0;
+    public void checkCoinTouched() throws URISyntaxException {
+        int total1 = 0;
+        int total2 = 0;
         for (Coin coin : coins) {
             if (!coin.isClaimed()) {
-                if (coin.hitBox.intersects(player1.getHitbox())
-                        || coin.hitBox.intersects(player2.getHitbox())) {
+                if (coin.hitBox.intersects(player1.getHitbox())) {
                     coin.setClaimed(true);
-                    total++;
-                    calculatePoint(total);
+                    Game.playSound(Constant.SoundConst.COIN_SOUND);
+                    total1++;
+                    calculatePoint(total1, 1);
+                }
+                if(coin.hitBox.intersects(player2.getHitbox())){
+                    coin.setClaimed(true);
+                    Game.playSound(Constant.SoundConst.COIN_SOUND);
+                    total2++;
+                    calculatePoint(total2, 2);
                 }
             }
         }
     }
     
-    public void calculatePoint(int total){
-        point += total;
+    public void calculatePoint(int total, int playerIndex){
+        if(playerIndex == 1)
+            point1 += total;
+        else
+            point2 += total;
     }
     
     public void drawPoint(Graphics g){
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 25)); 
-        g.drawString("Point: " + String.valueOf(point), 40, 60);
+        BufferedImage img1 = LoadSave.GetSpriteAtlas("monster1/face1.png");
+        BufferedImage img2 = LoadSave.GetSpriteAtlas("monster2/face2.png");
+        
+        drawPointForPlayers(g, img1, point1, 1);
+        drawPointForPlayers(g, img2, point2, 2);
+        
     }
-
+    
     public void setPoint() {
-        point = 0;
+        point1 = 0;
+        point2 = 0;
+    }
+    
+    public void drawPointForPlayers(Graphics g, BufferedImage img, int point, int playerIndex){
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 
+            if(playerIndex == 1){
+            g.drawString("Point: " + String.valueOf(point), 80, 80);
+            g.drawImage(img, 40, 60, null);
+        }else{
+            g.drawString("Point: " + String.valueOf(point), 80, 100);
+            g.drawImage(img, 40, 80, null);
+        }
+    }
+    public void reset(){
+        setPoint();
+        for (Coin coin : coins) {
+            if (coin.isClaimed()) {
+                coin.setClaimed(false);
+            }
+        }
     }
 }

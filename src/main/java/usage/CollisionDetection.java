@@ -25,12 +25,12 @@ public class CollisionDetection {
             if(!isSolid(x + width, y + height, levelData)){
                 if(!isSolid(x + width, y, levelData)){
                     if(!isSolid(x, y + height, levelData)){
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
     
     /* Kiểm tra những tile không di chuyển được
@@ -41,11 +41,13 @@ public class CollisionDetection {
         12 là vị trí của 1 tile không đi được
     */
     public static boolean isSolid(int x, int y, int[][] levelData){
-        
-        if(x < 0|| x >= Game.GAME_WIDTH)
+       
+        if(x < 0 || x > Game.GAME_WIDTH){
             return true;
-        if(y < 0 || y >= Game.GAME_HEIGHT)
+        }
+        if(y < 0 || y > Game.GAME_HEIGHT){
             return true;
+        }
         
         // Kiểm tra xem nhân vật đang ở tile nào
         int positionXInLevelData = x / Game.TILES_SIZE;
@@ -75,8 +77,8 @@ public class CollisionDetection {
     
     
     public static boolean checkIfEntityOnGround(int x, int y, int width, int height, int [][] levelData){
-        if(!isSolid(x, y + height + 1, levelData)){
-            if(!isSolid(x + width, y + height + 1, levelData)){
+        if(!isSolid(x, y + height, levelData)){
+            if(!isSolid(x + width, y + height, levelData)){
                 return false; // Không ở trên mặt đất
             }
         }

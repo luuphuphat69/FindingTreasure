@@ -12,26 +12,8 @@ import java.awt.geom.Rectangle2D;
 public class Object {
     public int x, y, type;
     public Rectangle2D.Float hitBox;
-    public int xDrawOffset;
-    public int yDrawOffset;
-
-    public int getxDrawOffset() {
-        return xDrawOffset;
-    }
-
-    public void setxDrawOffset(int xDrawOffset) {
-        this.xDrawOffset = xDrawOffset;
-    }
-
-    public int getyDrawOffset() {
-        return yDrawOffset;
-    }
-
-    public void setyDrawOffset(int yDrawOffset) {
-        this.yDrawOffset = yDrawOffset;
-    }
     
-
+    
     public Object(int x, int y, int type) {
         this.x = x;
         this.y = y;

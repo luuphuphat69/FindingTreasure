@@ -7,11 +7,8 @@ import com.captainhook.findingtreasure.Game;
  * @author luuph
  */
 public class Coin extends Object{
-    private int type;
-    public static int xDrawOffset;
-    public static int yDrawOffset;
     public boolean Claimed = false;
-
+            
     public Coin() {
     }
     
@@ -28,13 +25,5 @@ public class Coin extends Object{
 
     public void setClaimed(boolean Claimed) {
         this.Claimed = Claimed;
-    }
-        
-    public int getY() {
-        return super.y;
-    }
-
-    public int getX() {
-        return super.x;
     }
 }

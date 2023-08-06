@@ -23,10 +23,9 @@ public class Entity {
     public Rectangle2D.Float hitBox;
     public boolean ifCollistion = false;
     
-    private float airSpeed = 0f;
-    private float gravity = 0.05f * Game.SCALE;
-    private float jumpSpeed = -2.25f * Game.SCALE;
-    protected float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+    public float airSpeed = 0.1f * Game.SCALE;
+    public float gravity = 0.1f * Game.SCALE;
+    public float jumpSpeed = -2.05f * Game.SCALE;
     
       public int getAction() {
         return action;

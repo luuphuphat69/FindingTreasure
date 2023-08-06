@@ -136,11 +136,10 @@ public class Constant {
     
     public class ObjectConst{
         
-        public static int OBJECT = 0;
-        public static int BACKGROUND = 1;
-        
         public static final int CHEST = 10;
         public static final int COIN = 11;
+        public static final String MENU = "menu/bg.png";
+        public static final String BUTTON_UI = "menu/button UI.png";
         
         public static String getImagePath(int type){
             switch (type) {
@@ -151,5 +150,15 @@ public class Constant {
             }
             return null;
         }
+    }
+    public class SoundConst{
+        public static final String GAME_SOUND = "gameaudio/Glorious_morning.wav";
+        public static final String COIN_SOUND = "gameaudio/coinsound.wav";
+        public static final String JUMP_SOUND = "gameaudio/jumpsound.wav";
+        public static final String LEVEL_COMPLETED = "gameaudio/level_completed.wav";
+    }
+    public class UI_Const{
+        public static final String BUTTON_UI = "menu/button UI.png";
+        public static final String MENU = "menu/menu.png";
     }
 }
